@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     if (req.isAuthenticated()) {
         console.log('/shelf POST route');
-        console.log(req.body);
+        console.log(req.params);
         console.log('is authenticated?', req.isAuthenticated());
         console.log('user', req.user);
 
@@ -48,6 +48,21 @@ router.post('/', (req, res) => {
  * Delete an item if it's something the logged in user added
  */
 router.delete('/:id', (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log('/shelf Delete route');
+    console.log(req.params.id);
+    console.log('is authenticated?', req.isAuthenticated());
+    console.log('user', req.user);
+
+    let queryText = `DELETE FROM "item" WHERE "id" = $1 AND "user_id"= $2`;
+
+    pool.query(queryText, [req.params.id, req.user.id])
+    .then((result) => {
+        res.sendStatus(200);
+    }).catch((err) => res.sendStatus(500));
+} else {
+    res.sendStatus(403);
+}
   // endpoint functionality
 });
 
