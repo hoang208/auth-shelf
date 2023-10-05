@@ -13,6 +13,20 @@ router.get('/', (req, res) => {
  * Add an item for the logged in user to the shelf
  */
 router.post('/', (req, res) => {
+  if (req.isAuthenticated()) {
+    console.log('/pet GET route');
+    console.log('is authenticated?', req.isAuthenticated());
+    console.log('user', req.user);
+    let queryText = `SELECT * FROM "item"`;
+    pool.query(queryText).then((result) => {
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log(error);
+        res.sendStatus(500);
+    });
+} else {
+    res.sendStatus(403);
+}
   // endpoint functionality
 });
 
