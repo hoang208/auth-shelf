@@ -6,15 +6,8 @@ const router = express.Router();
  * Get all of the items on the shelf
  */
 router.get('/', (req, res) => {
-  res.sendStatus(200); // For testing only, can be removed
-});
-
-/**
- * Add an item for the logged in user to the shelf
- */
-router.post('/', (req, res) => {
   if (req.isAuthenticated()) {
-    console.log('/pet GET route');
+    console.log('/shelf GET route');
     console.log('is authenticated?', req.isAuthenticated());
     console.log('user', req.user);
     let queryText = `SELECT * FROM "item"`;
@@ -26,7 +19,13 @@ router.post('/', (req, res) => {
     });
 } else {
     res.sendStatus(403);
-}
+} // For testing only, can be removed
+});
+
+/**
+ * Add an item for the logged in user to the shelf
+ */
+router.post('/', (req, res) => {
   // endpoint functionality
 });
 
